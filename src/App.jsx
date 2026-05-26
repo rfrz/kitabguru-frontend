@@ -13,12 +13,13 @@ const ProtectedRoute = ({ children, requireAdmin }) => {
   return children;
 };
 
+import LoginPage from './pages/auth/LoginPage';
+import RegisterPage from './pages/auth/RegisterPage';
+import ChatPage from './pages/user/ChatPage';
+import AdminDashboard from './pages/admin/AdminDashboard';
+
 // Placeholder Pages
-const LoginPage = () => <div className="p-8 text-center animate-in"><h2>Login Page</h2></div>;
-const RegisterPage = () => <div className="p-8 text-center animate-in"><h2>Register Page</h2></div>;
-const ChatPage = () => <div className="p-8 text-center animate-in"><h2>Chat Interface</h2></div>;
 const ProfilePage = () => <div className="p-8 text-center animate-in"><h2>Profile</h2></div>;
-const AdminDashboard = () => <div className="p-8 text-center animate-in"><h2>Admin Dashboard</h2></div>;
 
 function AppRoutes() {
   return (
