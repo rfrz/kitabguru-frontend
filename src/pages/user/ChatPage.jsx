@@ -4,8 +4,6 @@ import { useChat } from '../../contexts/ChatContext';
 import Sidebar from '../../components/layout/Sidebar';
 import ChatBubble from '../../components/chat/ChatBubble';
 import ChatInput from '../../components/chat/ChatInput';
-import MediaButtons from '../../components/chat/MediaButtons';
-
 export default function ChatPage() {
   const { user } = useAuth();
   const { currentSessionId, messages, isLoadingMessages } = useChat();
@@ -17,7 +15,7 @@ export default function ChatPage() {
         <header className="h-14 border-b flex items-center justify-between px-6 bg-white dark:bg-gray-900 z-10">
           <h1 className="font-semibold text-lg">KitabGuru Chat</h1>
           <div className="flex items-center space-x-4">
-            {currentSessionId && <MediaButtons sessionId={currentSessionId} />}
+            {/* MediaButtons removed from header */}
             <span className="text-sm text-gray-500">{user?.username}</span>
           </div>
         </header>

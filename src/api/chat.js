@@ -16,6 +16,10 @@ export const chatApi = {
   deleteSession: async (id) => {
     await apiClient.delete(`/chat/sessions/${id}`);
   },
+  renameSession: async (id, title) => {
+    const { data } = await apiClient.patch(`/chat/sessions/${id}`, { title });
+    return data;
+  },
   sendMessage: async (sessionId, content, bookFilter = null) => {
     const { data } = await apiClient.post(`/chat/sessions/${sessionId}/messages`, {
       content,

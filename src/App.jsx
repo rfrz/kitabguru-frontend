@@ -18,8 +18,7 @@ import RegisterPage from './pages/auth/RegisterPage';
 import ChatPage from './pages/user/ChatPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 
-// Placeholder Pages
-const ProfilePage = () => <div className="p-8 text-center animate-in"><h2>Profile</h2></div>;
+import ProfilePage from './pages/user/ProfilePage';
 
 function AppRoutes() {
   return (

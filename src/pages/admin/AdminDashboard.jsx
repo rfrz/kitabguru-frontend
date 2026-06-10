@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { adminApi } from '../../api/admin';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/card';
-import { LogOut } from 'lucide-react';
+import { LogOut, Trash2 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/ui/button';
@@ -37,6 +37,28 @@ export default function AdminDashboard() {
   const handleLogout = () => {
     logout();
     navigate('/login');
+  };
+
+  const handleDeleteSession = async (id) => {
+    if (window.confirm('Delete this chat session?')) {
+      try {
+        await adminApi.deleteSession(id);
+        setSessions(sessions.filter(s => s.id !== id));
+      } catch (e) {
+        console.error('Failed to delete session', e);
+      }
+    }
+  };
+
+  const handleDeleteIotSession = async (id) => {
+    if (window.confirm('Delete this IoT session?')) {
+      try {
+        await adminApi.deleteIoTSession(id);
+        setIot(iot.filter(i => i.id !== id));
+      } catch (e) {
+        console.error('Failed to delete IoT session', e);
+      }
+    }
   };
 
   if (loading) return <div className="p-8 text-center">Loading admin data...</div>;
@@ -76,9 +98,14 @@ export default function AdminDashboard() {
             <CardContent>
               <ul className="space-y-2">
                 {sessions.map(s => (
-                  <li key={s.id} className="flex flex-col text-sm border-b pb-1">
-                    <span className="truncate font-medium">{s.title || 'Untitled'}</span>
-                    <span className="text-gray-500 text-xs">Msgs: {s.message_count}</span>
+                  <li key={s.id} className="flex justify-between items-center text-sm border-b pb-1">
+                    <div className="flex flex-col overflow-hidden">
+                      <span className="truncate font-medium">{s.title || 'Untitled'}</span>
+                      <span className="text-gray-500 text-xs">Msgs: {s.message_count}</span>
+                    </div>
+                    <button onClick={() => handleDeleteSession(s.id)} className="text-red-500 hover:text-red-700 p-1 flex-shrink-0" title="Delete session">
+                      <Trash2 size={16} />
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -92,9 +119,14 @@ export default function AdminDashboard() {
             <CardContent>
               <ul className="space-y-2">
                 {iot.map(i => (
-                  <li key={i.id} className="flex flex-col text-sm border-b pb-1">
-                    <span className="font-medium">Device: {i.device_id}</span>
-                    <span className="text-gray-500 text-xs">{new Date(i.started_at).toLocaleString()}</span>
+                  <li key={i.id} className="flex justify-between items-center text-sm border-b pb-1">
+                    <div className="flex flex-col overflow-hidden">
+                      <span className="font-medium truncate">Device: {i.device_id}</span>
+                      <span className="text-gray-500 text-xs">{new Date(i.started_at).toLocaleString()}</span>
+                    </div>
+                    <button onClick={() => handleDeleteIotSession(i.id)} className="text-red-500 hover:text-red-700 p-1 flex-shrink-0" title="Delete IoT session">
+                      <Trash2 size={16} />
+                    </button>
                   </li>
                 ))}
               </ul>

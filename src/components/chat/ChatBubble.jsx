@@ -1,6 +1,7 @@
 import React from 'react';
 import { User, Bot } from 'lucide-react';
 import { cn } from '../../utils/utils';
+import MediaButtons from './MediaButtons';
 
 export default function ChatBubble({ message }) {
   const isUser = message.role === 'user';
@@ -35,6 +36,24 @@ export default function ChatBubble({ message }) {
                 </li>
               ))}
             </ul>
+          </div>
+        )}
+
+        {/* Render Media if exists */}
+        {message.metadata?.media_type === 'image' && message.metadata?.url && (
+          <div className="mt-3">
+            <img 
+              src={message.metadata.url} 
+              alt="Generated Media" 
+              className="w-full rounded-lg shadow-sm border border-gray-200 dark:border-gray-700" 
+            />
+          </div>
+        )}
+
+        {/* Media Buttons for AI Messages without media */}
+        {!isUser && !message.metadata?.media_type && (
+          <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
+            <MediaButtons sessionId={message.session_id} messageId={message.id} />
           </div>
         )}
       </div>

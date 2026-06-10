@@ -31,5 +31,11 @@ export const adminApi = {
   getIoTSession: async (id) => {
     const { data } = await apiClient.get(`/admin/iot/sessions/${id}`);
     return data;
+  },
+  deleteSession: async (id) => {
+    await apiClient.delete(`/admin/sessions/${id}`);
+  },
+  deleteIoTSession: async (id) => {
+    await apiClient.delete(`/admin/iot/sessions/${id}`);
   }
 };

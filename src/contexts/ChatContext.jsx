@@ -62,6 +62,17 @@ export const ChatProvider = ({ children }) => {
     }
   };
 
+  const renameSession = async (sessionId, newTitle) => {
+    try {
+      const data = await chatApi.renameSession(sessionId, newTitle);
+      setSessions(sessions.map(s => s.id === sessionId ? { ...s, title: data.title || newTitle } : s));
+      return data;
+    } catch (error) {
+      console.error('Error renaming session:', error);
+      throw error;
+    }
+  };
+
   const sendMessage = async (content, bookFilter = null) => {
     let sessionId = currentSessionId;
     if (!sessionId) {
@@ -114,6 +125,7 @@ export const ChatProvider = ({ children }) => {
         loadSession,
         createSession,
         deleteSession,
+        renameSession,
         sendMessage
       }}
     >

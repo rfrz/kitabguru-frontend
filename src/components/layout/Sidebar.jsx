@@ -1,14 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useChat } from '../../contexts/ChatContext';
 import { Button } from '../ui/button';
-import { PlusCircle, MessageSquare, Trash2, LogOut, Settings } from 'lucide-react';
+import { PlusCircle, MessageSquare, Trash2, LogOut, Settings, Edit2, Check, X } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 export default function Sidebar() {
-  const { sessions, currentSessionId, loadSession, createSession, deleteSession, isLoadingSessions } = useChat();
+  const { sessions, currentSessionId, loadSession, createSession, deleteSession, renameSession, isLoadingSessions } = useChat();
   const { logout, user } = useAuth();
   const navigate = useNavigate();
+
+  const [editingId, setEditingId] = useState(null);
+  const [editTitle, setEditTitle] = useState('');
+
+  const startEditing = (e, session) => {
+    e.stopPropagation();
+    setEditingId(session.id);
+    setEditTitle(session.title || 'Untitled Chat');
+  };
+
+  const cancelEditing = (e) => {
+    e.stopPropagation();
+    setEditingId(null);
+    setEditTitle('');
+  };
+
+  const saveEditing = async (e, sessionId) => {
+    e.stopPropagation();
+    if (editTitle.trim() && editTitle.trim() !== sessions.find(s => s.id === sessionId)?.title) {
+      await renameSession(sessionId, editTitle.trim());
+    }
+    setEditingId(null);
+  };
 
   const handleNewChat = () => {
     // Just clear current session to show welcome screen
@@ -43,19 +66,50 @@ export default function Sidebar() {
                   ? 'bg-blue-100 dark:bg-blue-900/40 text-blue-900 dark:text-blue-100' 
                   : 'hover:bg-gray-200 dark:hover:bg-gray-700/50 text-gray-700 dark:text-gray-300'
               }`}
-              onClick={() => loadSession(session.id)}
+              onClick={() => {
+                if (editingId !== session.id) loadSession(session.id);
+              }}
             >
-              <div className="flex items-center gap-2 truncate">
-                <MessageSquare size={16} />
-                <span className="truncate text-sm">{session.title || 'Untitled Chat'}</span>
-              </div>
-              <button 
-                onClick={(e) => { e.stopPropagation(); deleteSession(session.id); }}
-                className="opacity-0 group-hover:opacity-100 text-gray-500 hover:text-red-500 transition-opacity p-1"
-                title="Delete chat"
-              >
-                <Trash2 size={14} />
-              </button>
+              {editingId === session.id ? (
+                <div className="flex items-center gap-1 w-full" onClick={e => e.stopPropagation()}>
+                  <input
+                    autoFocus
+                    type="text"
+                    value={editTitle}
+                    onChange={(e) => setEditTitle(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') saveEditing(e, session.id);
+                      if (e.key === 'Escape') cancelEditing(e);
+                    }}
+                    className="flex-1 bg-white dark:bg-gray-800 text-sm px-2 py-1 rounded border dark:border-gray-600 focus:outline-none"
+                  />
+                  <button onClick={(e) => saveEditing(e, session.id)} className="text-green-600 p-1"><Check size={14} /></button>
+                  <button onClick={cancelEditing} className="text-red-500 p-1"><X size={14} /></button>
+                </div>
+              ) : (
+                <>
+                  <div className="flex items-center gap-2 truncate">
+                    <MessageSquare size={16} />
+                    <span className="truncate text-sm">{session.title || 'Untitled Chat'}</span>
+                  </div>
+                  <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button 
+                      onClick={(e) => startEditing(e, session)}
+                      className="text-gray-500 hover:text-blue-500 p-1"
+                      title="Rename chat"
+                    >
+                      <Edit2 size={14} />
+                    </button>
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); deleteSession(session.id); }}
+                      className="text-gray-500 hover:text-red-500 p-1"
+                      title="Delete chat"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           ))
         )}
