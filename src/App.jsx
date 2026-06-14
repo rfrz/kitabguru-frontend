@@ -17,6 +17,8 @@ import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import ChatPage from './pages/user/ChatPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminChatView from './pages/admin/AdminChatView';
+import AdminIoTView from './pages/admin/AdminIoTView';
 
 import ProfilePage from './pages/user/ProfilePage';
 
@@ -42,9 +44,19 @@ function AppRoutes() {
       } />
       
       {/* Admin Routes */}
-      <Route path="/admin/*" element={
+      <Route path="/admin" element={
         <ProtectedRoute requireAdmin={true}>
           <AdminDashboard />
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/chat/:id" element={
+        <ProtectedRoute requireAdmin={true}>
+          <AdminChatView />
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/iot/:id" element={
+        <ProtectedRoute requireAdmin={true}>
+          <AdminIoTView />
         </ProtectedRoute>
       } />
     </Routes>

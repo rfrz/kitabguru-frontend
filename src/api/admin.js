@@ -5,6 +5,10 @@ export const adminApi = {
     const { data } = await apiClient.get(`/admin/users?page=${page}&limit=${limit}`);
     return data;
   },
+  createUser: async (payload) => {
+    const { data } = await apiClient.post(`/admin/users`, payload);
+    return data;
+  },
   getUser: async (id) => {
     const { data } = await apiClient.get(`/admin/users/${id}`);
     return data;

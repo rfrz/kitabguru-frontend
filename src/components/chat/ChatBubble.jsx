@@ -3,7 +3,7 @@ import { User, Bot } from 'lucide-react';
 import { cn } from '../../utils/utils';
 import MediaButtons from './MediaButtons';
 
-export default function ChatBubble({ message, isLast }) {
+export default function ChatBubble({ message, isLast, readOnly = false }) {
   const isUser = message.role === 'user';
   
   return (
@@ -61,8 +61,8 @@ export default function ChatBubble({ message, isLast }) {
           </div>
         )}
 
-        {/* Media Buttons for AI Messages without media */}
-        {!isUser && !message.metadata?.media_type && (
+        {/* Media Buttons for AI Messages without media - Hidden in readOnly */}
+        {!isUser && !message.metadata?.media_type && !readOnly && (
           <div className="mt-4 pt-3 border-t border-border/50 opacity-100 sm:opacity-50 sm:group-hover:opacity-100 transition-opacity duration-300">
             <MediaButtons sessionId={message.session_id} messageId={message.id} />
           </div>
