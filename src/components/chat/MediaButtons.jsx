@@ -8,8 +8,18 @@ export default function MediaButtons({ messageId, sessionId }) {
   const { currentSessionId, loadSession } = useChat();
   const [isGeneratingImg, setIsGeneratingImg] = useState(false);
   const [isGeneratingVid, setIsGeneratingVid] = useState(false);
+  const [videoProgress, setVideoProgress] = useState(null);
 
   const activeSessionId = sessionId || currentSessionId;
+  const pollingIntervalRef = React.useRef(null);
+
+  React.useEffect(() => {
+    return () => {
+      if (pollingIntervalRef.current) {
+        clearInterval(pollingIntervalRef.current);
+      }
+    };
+  }, []);
 
   const handleGenerateImage = async () => {
     setIsGeneratingImg(true);
@@ -24,16 +34,52 @@ export default function MediaButtons({ messageId, sessionId }) {
     }
   };
 
+  const pollVideoJob = (jobId) => {
+    if (pollingIntervalRef.current) {
+      clearInterval(pollingIntervalRef.current);
+    }
+
+    pollingIntervalRef.current = setInterval(async () => {
+      try {
+        const statusRes = await mediaApi.getJobStatus(jobId);
+        const { status: jobStatus, progress_pct } = statusRes;
+
+        if (jobStatus === 'completed') {
+          clearInterval(pollingIntervalRef.current);
+          pollingIntervalRef.current = null;
+          setIsGeneratingVid(false);
+          setVideoProgress(null);
+          await loadSession(activeSessionId);
+        } else if (jobStatus === 'failed') {
+          clearInterval(pollingIntervalRef.current);
+          pollingIntervalRef.current = null;
+          setIsGeneratingVid(false);
+          setVideoProgress(null);
+          alert('Video generation failed');
+        } else {
+          setVideoProgress(progress_pct || 0);
+        }
+      } catch (error) {
+        console.error('Error polling video job:', error);
+      }
+    }, 3000);
+  };
+
   const handleGenerateVideo = async () => {
     setIsGeneratingVid(true);
+    setVideoProgress(0);
     try {
-      await mediaApi.generateVideo(activeSessionId, messageId);
-      alert('Video generation queued!');
+      const res = await mediaApi.generateVideo(activeSessionId, messageId);
+      if (res && res.job_id) {
+        pollVideoJob(res.job_id);
+      } else {
+        throw new Error('No job ID returned');
+      }
     } catch (error) {
       console.error(error);
       alert('Failed to generate video');
-    } finally {
       setIsGeneratingVid(false);
+      setVideoProgress(null);
     }
   };
 
@@ -66,7 +112,7 @@ export default function MediaButtons({ messageId, sessionId }) {
         ) : (
           <Video size={14} />
         )}
-        Generate Video
+        {isGeneratingVid ? `Generating... ${videoProgress ?? 0}%` : 'Generate Video'}
       </Button>
     </div>
   );

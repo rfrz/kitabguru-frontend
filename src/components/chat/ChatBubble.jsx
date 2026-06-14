@@ -61,6 +61,20 @@ export default function ChatBubble({ message, isLast, readOnly = false }) {
           </div>
         )}
 
+        {message.metadata?.media_type === 'video' && message.metadata?.url && (
+          <div className="mt-4">
+            <div className="rounded-xl overflow-hidden shadow-sm border border-border/50 bg-black relative animate-in fade-in zoom-in-95 duration-300">
+              <video 
+                src={message.metadata.url} 
+                controls 
+                className="w-full h-auto aspect-video"
+              >
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        )}
+
         {/* Media Buttons for AI Messages without media - Hidden in readOnly */}
         {!isUser && !message.metadata?.media_type && !readOnly && (
           <div className="mt-4 pt-3 border-t border-border/50 opacity-100 sm:opacity-50 sm:group-hover:opacity-100 transition-opacity duration-300">
