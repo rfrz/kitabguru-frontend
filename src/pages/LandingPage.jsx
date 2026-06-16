@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { 
   MessageSquare, 
-  Cpu, 
-  ShieldCheck, 
+  Image as ImageIcon,
+  Film,
   ArrowRight, 
   BookOpen, 
-  Users, 
-  Activity, 
   Zap 
 } from 'lucide-react';
 
@@ -57,16 +55,16 @@ export default function LandingPage() {
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-200/50 dark:border-blue-800/30 mb-6 animate-pulse">
-            <Zap size={14} /> Built for Learning & IoT Management
+            <Zap size={14} /> Fitur AI Generatif Khusus Pelajar
           </div>
           <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight max-w-4xl mx-auto leading-tight">
-            Empower Your Learning with{' '}
+            Asisten AI Cerdas untuk Pelajar:{' '}
             <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 dark:from-blue-400 dark:via-indigo-400 dark:to-violet-400 bg-clip-text text-transparent">
-              Smart IoT and AI
+              Chat, Image & Video Generator
             </span>
           </h1>
           <p className="mt-6 text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            KitabGuru brings real-time interactive AI chat and physical IoT integration under a unified dashboard. Learn faster, monitor smarter.
+            KitabGuru menggabungkan kekuatan AI untuk menjawab pertanyaan dari kitab, menghasilkan ilustrasi edukatif, dan menyusun skrip video secara instan.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             {user ? (
@@ -100,9 +98,9 @@ export default function LandingPage() {
       <section className="py-20 sm:py-28 bg-gray-50/50 dark:bg-gray-900/30 border-y border-gray-200/50 dark:border-gray-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Everything you need to learn & control</h2>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Semua yang Anda butuhkan untuk belajar</h2>
             <p className="mt-4 text-gray-600 dark:text-gray-400 text-base sm:text-lg">
-              Explore the core components designed to bridge digital classrooms with physical hardware.
+              Jelajahi berbagai fitur AI yang dirancang untuk mempercepat dan memperkaya proses pembelajaran Anda.
             </p>
           </div>
 
@@ -112,84 +110,32 @@ export default function LandingPage() {
               <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center mb-5">
                 <MessageSquare className="h-6 w-6" />
               </div>
-              <h3 className="text-lg font-bold mb-2">AI-Driven Chat</h3>
+              <h3 className="text-lg font-bold mb-2">Chat Kitab</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed flex-grow">
-                Ask questions, generate study guides, and test your knowledge directly through our interactive chat console.
+                Tanyakan apa saja seputar kitab dan dapatkan jawaban akurat beserta referensi halaman dan cuplikan teks aslinya secara langsung.
               </p>
             </div>
 
             {/* Feature 2 */}
             <div className="flex flex-col p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 hover:shadow-lg transition-shadow">
               <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-xl flex items-center justify-center mb-5">
-                <Cpu className="h-6 w-6" />
+                <ImageIcon className="h-6 w-6" />
               </div>
-              <h3 className="text-lg font-bold mb-2">IoT Integration</h3>
+              <h3 className="text-lg font-bold mb-2">Image Generator</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed flex-grow">
-                Connect and control physical sensors and educational microcontroller hardware right from your browser.
+                Hasilkan ilustrasi visual yang menakjubkan dari deskripsi teks untuk membantu visualisasi materi pembelajaran Anda.
               </p>
             </div>
 
             {/* Feature 3 */}
             <div className="flex flex-col p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 hover:shadow-lg transition-shadow">
               <div className="w-12 h-12 bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 rounded-xl flex items-center justify-center mb-5">
-                <ShieldCheck className="h-6 w-6" />
+                <Film className="h-6 w-6" />
               </div>
-              <h3 className="text-lg font-bold mb-2">Admin Panel</h3>
+              <h3 className="text-lg font-bold mb-2">Video Script Gen</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed flex-grow">
-                Manage learning programs, review chat transcripts, monitor connected IoT boards, and configure users effortlessly.
+                Buat skrip video edukatif terstruktur secara otomatis hanya dengan memberikan topik yang ingin Anda bahas.
               </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* About / Use Cases / Testimonials Section */}
-      <section className="py-20 sm:py-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6">Designed for next-generation interactive environments</h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-                KitabGuru enables educational institutions, makers, and enthusiasts to develop IoT projects quickly while leveraging contextual assistance through AI. 
-              </p>
-              
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center flex-shrink-0 mt-1">
-                    <Activity size={14} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-sm">Real-time Telemetry Data</h4>
-                    <p className="text-xs text-gray-500">Render live plots of temp, humidity, and custom values.</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center flex-shrink-0 mt-1">
-                    <Users size={14} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-sm">Collaborative Classrooms</h4>
-                    <p className="text-xs text-gray-500">Supervise user interactions and verify firmware updates seamlessly.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-gray-100 dark:bg-gray-900 p-8 rounded-2xl border border-gray-200 dark:border-gray-800 relative">
-              <div className="absolute top-6 left-6 text-gray-300 dark:text-gray-700 text-6xl font-serif">“</div>
-              <p className="text-gray-700 dark:text-gray-300 relative z-10 italic leading-relaxed mb-6">
-                Using KitabGuru, we managed to integrate our physical weather station device to the classroom UI in under an hour. The AI chat provided precise coding advice for the ESP32 connection instantly!
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm">
-                  JD
-                </div>
-                <div>
-                  <h4 className="text-sm font-bold">John Doe</h4>
-                  <p className="text-xs text-gray-500">IoT Lab Instructor</p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
