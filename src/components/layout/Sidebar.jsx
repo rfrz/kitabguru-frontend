@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useChat } from '../../contexts/ChatContext';
 import { Button } from '../ui/button';
-import { PlusCircle, MessageSquare, Trash2, LogOut, Settings, Edit2, Check, X } from 'lucide-react';
+import { PlusCircle, Trash2, LogOut, Settings, Edit2, Check, X } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -87,15 +87,16 @@ export default function Sidebar({ isOpen = true, onClose }) {
                       if (e.key === 'Enter') saveEditing(e, session.id);
                       if (e.key === 'Escape') cancelEditing(e);
                     }}
-                    className="flex-1 bg-background text-foreground text-sm px-2 py-1 rounded-md border border-border focus:ring-2 focus:ring-primary/20 focus:outline-none shadow-sm transition-all"
+                    className="flex-1 min-w-0 bg-background text-foreground text-sm px-2 py-1 rounded-md border border-border focus:ring-2 focus:ring-primary/20 focus:outline-none shadow-sm transition-all"
                   />
-                  <button onClick={(e) => saveEditing(e, session.id)} className="text-emerald-500 hover:text-emerald-600 p-1 bg-emerald-50 dark:bg-emerald-950/30 rounded-md transition-colors"><Check size={14} /></button>
-                  <button onClick={cancelEditing} className="text-rose-500 hover:text-rose-600 p-1 bg-rose-50 dark:bg-rose-950/30 rounded-md transition-colors"><X size={14} /></button>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <button onClick={(e) => saveEditing(e, session.id)} className="text-emerald-500 hover:text-emerald-600 p-1 bg-emerald-50 dark:bg-emerald-950/30 rounded-md transition-colors" title="Save"><Check size={14} /></button>
+                    <button onClick={cancelEditing} className="text-rose-500 hover:text-rose-600 p-1 bg-rose-50 dark:bg-rose-950/30 rounded-md transition-colors" title="Cancel"><X size={14} /></button>
+                  </div>
                 </div>
               ) : (
                 <>
-                  <div className="flex items-center gap-3 truncate">
-                    <MessageSquare size={16} className={currentSessionId === session.id ? "text-primary" : "text-muted-foreground/70"} />
+                  <div className="flex items-center truncate">
                     <span className="truncate text-[13px]">{session.title || 'Untitled Chat'}</span>
                   </div>
                   <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity gap-0.5">
