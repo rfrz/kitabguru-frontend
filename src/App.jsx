@@ -1,8 +1,11 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ChatProvider } from './contexts/ChatContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { ToastProvider } from './contexts/ToastContext';
+import ErrorBoundary from './components/layout/ErrorBoundary';
 
-// Layouts & Pages (Placeholders for now)
+// Layouts & Pages
 const ProtectedRoute = ({ children, requireAdmin }) => {
   const { user, isLoading } = useAuth();
   
@@ -19,24 +22,28 @@ import ChatPage from './pages/user/ChatPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminChatView from './pages/admin/AdminChatView';
 import AdminIoTView from './pages/admin/AdminIoTView';
-
 import ProfilePage from './pages/user/ProfilePage';
+import LandingPage from './pages/LandingPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/chat" />} />
+      <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       
       {/* User Routes */}
-      <Route path="/chat" element={
+      <Route element={
         <ProtectedRoute>
           <ChatProvider>
-            <ChatPage />
+            <Outlet />
           </ChatProvider>
         </ProtectedRoute>
-      } />
+      }>
+        <Route path="/chat" element={<ChatPage />} />
+        <Route path="/chat/:sessionId" element={<ChatPage />} />
+      </Route>
       <Route path="/profile" element={
         <ProtectedRoute>
           <ProfilePage />
@@ -59,17 +66,26 @@ function AppRoutes() {
           <AdminIoTView />
         </ProtectedRoute>
       } />
+
+      {/* 404 Route */}
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
 
 function App() {
   return (
-    <Router>
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
-    </Router>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <ToastProvider>
+          <Router>
+            <AuthProvider>
+              <AppRoutes />
+            </AuthProvider>
+          </Router>
+        </ToastProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 

@@ -34,7 +34,7 @@ export default function Sidebar() {
   };
 
   const handleNewChat = () => {
-    loadSession(null);
+    navigate('/chat');
   };
 
   const handleLogout = () => {
@@ -69,7 +69,7 @@ export default function Sidebar() {
                   : 'hover:bg-muted/60 text-muted-foreground hover:text-foreground'
               }`}
               onClick={() => {
-                if (editingId !== session.id) loadSession(session.id);
+                if (editingId !== session.id) navigate(`/chat/${session.id}`);
               }}
             >
               {editingId === session.id ? (
@@ -103,7 +103,13 @@ export default function Sidebar() {
                       <Edit2 size={13} />
                     </button>
                     <button 
-                      onClick={(e) => { e.stopPropagation(); deleteSession(session.id); }}
+                      onClick={(e) => { 
+                        e.stopPropagation(); 
+                        deleteSession(session.id); 
+                        if (currentSessionId === session.id) {
+                          navigate('/chat');
+                        }
+                      }}
                       className="text-muted-foreground hover:text-destructive p-1 rounded-md hover:bg-background/80 transition-colors"
                       title="Delete chat"
                     >

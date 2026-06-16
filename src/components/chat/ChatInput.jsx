@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Loader2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { useChat } from '../../contexts/ChatContext';
 
 export default function ChatInput() {
   const [content, setContent] = useState('');
-  const { sendMessage, isSending } = useChat();
+  const { sendMessage, isSending, currentSessionId } = useChat();
   const textareaRef = useRef(null);
+  const navigate = useNavigate();
 
   // Auto-resize textarea
   useEffect(() => {
@@ -26,7 +28,10 @@ export default function ChatInput() {
     if (textareaRef.current) textareaRef.current.style.height = 'inherit';
     
     try {
-      await sendMessage(message);
+      const sessionId = await sendMessage(message);
+      if (sessionId && sessionId !== currentSessionId) {
+        navigate(`/chat/${sessionId}`);
+      }
     } catch (error) {
       setContent(message); // restore if failed
     }

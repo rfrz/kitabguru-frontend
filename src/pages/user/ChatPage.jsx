@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useChat } from '../../contexts/ChatContext';
 import Sidebar from '../../components/layout/Sidebar';
@@ -7,7 +8,19 @@ import ChatInput from '../../components/chat/ChatInput';
 
 export default function ChatPage() {
   const { user } = useAuth();
-  const { currentSessionId, messages, isLoadingMessages } = useChat();
+  const { currentSessionId, messages, isLoadingMessages, loadSession } = useChat();
+  const { sessionId } = useParams();
+  const navigate = useNavigate();
+
+  // Sync URL to State: If URL changes, load that session
+  useEffect(() => {
+    const targetSessionId = sessionId || null;
+    if (targetSessionId !== currentSessionId) {
+      loadSession(targetSessionId);
+    }
+  }, [sessionId, currentSessionId, loadSession]);
+
+
 
   return (
     <div className="flex h-screen bg-background overflow-hidden selection:bg-primary/20">

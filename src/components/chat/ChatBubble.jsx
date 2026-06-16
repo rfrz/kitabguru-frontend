@@ -2,9 +2,78 @@ import React from 'react';
 import { User, Bot } from 'lucide-react';
 import { cn } from '../../utils/utils';
 import MediaButtons from './MediaButtons';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+
+const markdownComponents = {
+  a: ({ href, children, ...props }) => {
+    const isCitation = href?.startsWith('#cit-');
+    if (isCitation) {
+      return (
+        <a 
+          href={href} 
+          className="text-primary hover:text-primary/80 font-bold text-xs align-super no-underline mx-0.5 transition-colors" 
+          title={`Go to citation ${children}`}
+          {...props}
+        >
+          [{children}]
+        </a>
+      );
+    }
+    return (
+      <a 
+        href={href} 
+        className="text-primary hover:underline font-medium break-all" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        {...props}
+      >
+        {children}
+      </a>
+    );
+  },
+  p: ({ children }) => <p className="mb-4 last:mb-0 leading-relaxed">{children}</p>,
+  h1: ({ children }) => <h1 className="text-2xl font-bold mt-6 mb-3 text-foreground/90">{children}</h1>,
+  h2: ({ children }) => <h2 className="text-xl font-bold mt-5 mb-2.5 text-foreground/90">{children}</h2>,
+  h3: ({ children }) => <h3 className="text-lg font-bold mt-4 mb-2 text-foreground/90">{children}</h3>,
+  ul: ({ children }) => <ul className="list-disc pl-6 mb-4 space-y-1.5">{children}</ul>,
+  ol: ({ children }) => <ol className="list-decimal pl-6 mb-4 space-y-1.5">{children}</ol>,
+  li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+  blockquote: ({ children }) => (
+    <blockquote className="border-l-4 border-primary/30 pl-4 italic text-muted-foreground my-4 bg-muted/20 py-1 rounded-r-md">
+      {children}
+    </blockquote>
+  ),
+  code: ({ className, children, ...props }) => {
+    const match = /language-(\w+)/.exec(className || '');
+    const isInline = !match && !className;
+    return isInline ? (
+      <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-foreground/90" {...props}>
+        {children}
+      </code>
+    ) : (
+      <pre className="bg-muted/50 border border-border/40 p-4 rounded-xl overflow-x-auto my-4 font-mono text-sm">
+        <code className={className} {...props}>{children}</code>
+      </pre>
+    );
+  },
+  table: ({ children }) => (
+    <div className="overflow-x-auto my-6 border border-border/50 rounded-xl">
+      <table className="min-w-full divide-y divide-border/50 text-sm">
+        {children}
+      </table>
+    </div>
+  ),
+  thead: ({ children }) => <thead className="bg-muted/50">{children}</thead>,
+  tbody: ({ children }) => <tbody className="divide-y divide-border/40 bg-card">{children}</tbody>,
+  tr: ({ children }) => <tr>{children}</tr>,
+  th: ({ children }) => <th className="px-4 py-3 text-left font-semibold text-foreground/85 border-b border-border/50">{children}</th>,
+  td: ({ children }) => <td className="px-4 py-3 text-foreground/80 border-b border-border/40">{children}</td>,
+};
 
 export default function ChatBubble({ message, isLast, readOnly = false }) {
   const isUser = message.role === 'user';
+  const processedContent = (message.content || '').replace(/\[[Ss]\s*(\d+)\]/g, '[$1](#cit-$1)');
   
   return (
     <div className={cn(
@@ -24,8 +93,14 @@ export default function ChatBubble({ message, isLast, readOnly = false }) {
           ? "bg-primary text-primary-foreground rounded-tr-sm" 
           : "bg-card text-card-foreground rounded-tl-sm border border-border/50"
       )}>
-        <div className="whitespace-pre-wrap font-sans text-[15px] leading-relaxed">
-          {message.content}
+        <div className="font-sans text-[15px] leading-relaxed">
+          {isUser ? (
+            <div className="whitespace-pre-wrap">{message.content}</div>
+          ) : (
+            <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+              {processedContent}
+            </ReactMarkdown>
+          )}
         </div>
         
         {/* Render Citations if AI and metadata exists */}
@@ -34,7 +109,11 @@ export default function ChatBubble({ message, isLast, readOnly = false }) {
             <p className="text-xs font-semibold mb-2 text-muted-foreground">Sumber Referensi:</p>
             <ul className="text-xs space-y-1.5 text-muted-foreground">
               {message.metadata.citations.map((cit, idx) => (
-                <li key={idx} className="flex gap-2">
+                <li 
+                  key={idx} 
+                  id={`cit-${idx + 1}`} 
+                  className="flex gap-2 scroll-mt-20 transition-all duration-500 target:bg-primary/10 target:p-1.5 target:rounded-lg target:border target:border-primary/20"
+                >
                   <span className="text-primary/70 mt-0.5">•</span>
                   <span>
                     <span className="font-medium text-foreground/80">{cit.title}</span> 

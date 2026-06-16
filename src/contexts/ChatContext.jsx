@@ -23,7 +23,11 @@ export const ChatProvider = ({ children }) => {
   }, []);
 
   const loadSession = useCallback(async (sessionId) => {
-    if (!sessionId) return;
+    if (!sessionId) {
+      setCurrentSessionId(null);
+      setMessages([]);
+      return;
+    }
     setIsLoadingMessages(true);
     setCurrentSessionId(sessionId);
     try {
@@ -99,6 +103,8 @@ export const ChatProvider = ({ children }) => {
       if (messages.length === 0) {
         setSessions(prev => prev.map(s => s.id === sessionId ? { ...s, title: content.slice(0, 80) } : s));
       }
+      
+      return sessionId;
     } catch (error) {
       console.error('Error sending message:', error);
       // Remove optimistic message on error
