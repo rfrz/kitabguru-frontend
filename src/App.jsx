@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ChatProvider } from './contexts/ChatContext';
 import { ThemeProvider } from './contexts/ThemeContext';
