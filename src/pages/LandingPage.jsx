@@ -18,12 +18,12 @@ export default function LandingPage() {
       {/* Navigation */}
       <nav className="sticky top-0 z-40 w-full border-b border-gray-200/80 dark:border-gray-800/80 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <BookOpen className="h-6 w-6 text-blue-600 dark:text-blue-500" />
             <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
               KitabGuru
             </span>
-          </div>
+          </Link>
           
           <div className="flex items-center gap-4">
             {user ? (
@@ -31,7 +31,7 @@ export default function LandingPage() {
                 to="/chat" 
                 className="px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 rounded-lg shadow-sm transition-colors"
               >
-                Go to App
+                Start Chatting
               </Link>
             ) : (
               <>
@@ -72,7 +72,7 @@ export default function LandingPage() {
                 to="/chat"
                 className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 rounded-lg shadow-md transition-all group"
               >
-                Go to Dashboard <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                Start Chatting <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             ) : (
               <>

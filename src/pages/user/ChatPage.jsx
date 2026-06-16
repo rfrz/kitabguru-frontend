@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Menu, Bot } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useChat } from '../../contexts/ChatContext';
@@ -48,12 +48,9 @@ export default function ChatPage() {
             >
               <Menu size={20} />
             </button>
-            <h1 className="font-semibold text-base tracking-tight text-foreground/90">KitabGuru</h1>
-          </div>
-          <div className="flex items-center space-x-4">
-            <div className="px-3 py-1 rounded-full bg-secondary/50 border border-border/50 backdrop-blur-sm">
-              <span className="text-xs font-medium text-secondary-foreground/80">{user?.username}</span>
-            </div>
+            <Link to="/" className="font-semibold text-base tracking-tight text-foreground/90 hover:text-primary transition-colors">
+              KitabGuru
+            </Link>
           </div>
         </header>
 

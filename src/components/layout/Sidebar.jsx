@@ -128,6 +128,12 @@ export default function Sidebar({ isOpen = true, onClose }) {
       </div>
 
       <div className="p-3 border-t border-border space-y-1 bg-background/50 backdrop-blur-sm">
+        <Button variant="ghost" className="w-full justify-start gap-3 h-10 rounded-lg text-muted-foreground hover:text-foreground transition-colors" onClick={() => navigate('/profile')}>
+          <div className="w-5 h-5 rounded-full bg-primary/10 text-primary border border-primary/20 flex items-center justify-center text-[10px] font-bold uppercase">
+            {user?.username?.[0] || 'U'}
+          </div>
+          <span className="text-sm font-medium truncate">{user?.username || 'Profile'}</span>
+        </Button>
         {user?.role === 'admin' && (
           <Button variant="ghost" className="w-full justify-start gap-3 h-10 rounded-lg text-muted-foreground hover:text-foreground transition-colors" onClick={() => navigate('/admin')}>
             <Settings size={16} />
