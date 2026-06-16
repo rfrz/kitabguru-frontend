@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Menu } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useChat } from '../../contexts/ChatContext';
 import Sidebar from '../../components/layout/Sidebar';
@@ -11,6 +12,17 @@ export default function ChatPage() {
   const { currentSessionId, messages, isLoadingMessages, loadSession } = useChat();
   const { sessionId } = useParams();
   const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 768);
+
+  // Handle responsive sidebar behavior on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) setIsSidebarOpen(false);
+      else setIsSidebarOpen(true);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Sync URL to State: If URL changes, load that session
   useEffect(() => {
@@ -24,13 +36,18 @@ export default function ChatPage() {
 
   return (
     <div className="flex h-screen bg-background overflow-hidden selection:bg-primary/20">
-      <Sidebar />
-      <main className="flex-1 flex flex-col h-full relative bg-dot-pattern bg-fixed">
-        <header className="h-14 border-b border-border/50 bg-background/80 backdrop-blur-md flex items-center justify-between px-6 z-10 sticky top-0">
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+      
+      <main className="flex-1 flex flex-col h-full relative bg-dot-pattern bg-fixed min-w-0 transition-all duration-300">
+        <header className="h-14 border-b border-border/50 bg-background/80 backdrop-blur-md flex items-center justify-between px-4 z-10 sticky top-0">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-              <span className="text-primary font-bold text-sm">KG</span>
-            </div>
+            <button
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="p-2 -ml-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+              title="Toggle Sidebar"
+            >
+              <Menu size={20} />
+            </button>
             <h1 className="font-semibold text-base tracking-tight text-foreground/90">KitabGuru</h1>
           </div>
           <div className="flex items-center space-x-4">

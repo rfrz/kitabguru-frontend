@@ -5,7 +5,7 @@ import { PlusCircle, MessageSquare, Trash2, LogOut, Settings, Edit2, Check, X } 
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen = true, onClose }) {
   const { sessions, currentSessionId, loadSession, createSession, deleteSession, renameSession, isLoadingSessions } = useChat();
   const { logout, user } = useAuth();
   const navigate = useNavigate();
@@ -43,7 +43,11 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-64 border-r border-border bg-background/95 backdrop-blur-md flex flex-col h-full shrink-0 shadow-sm z-20 transition-all duration-300">
+    <aside 
+      className={`w-64 border-r border-border bg-background/95 backdrop-blur-md flex flex-col h-full shrink-0 shadow-sm z-20 transition-all duration-300 ${
+        isOpen ? 'ml-0' : '-ml-64'
+      }`}
+    >
       <div className="p-4 border-b border-border">
         <Button 
           onClick={handleNewChat} 

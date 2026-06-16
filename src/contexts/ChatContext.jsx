@@ -77,11 +77,12 @@ export const ChatProvider = ({ children }) => {
     }
   };
 
-  const sendMessage = async (content, bookFilter = null) => {
+  const sendMessage = async (content, bookFilter = null, onSessionCreated = null) => {
     let sessionId = currentSessionId;
     if (!sessionId) {
       const newSession = await createSession(content.slice(0, 40));
       sessionId = newSession.id;
+      if (onSessionCreated) onSessionCreated(sessionId);
     }
 
     // Optimistic UI update

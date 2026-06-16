@@ -28,10 +28,15 @@ export default function ChatInput() {
     if (textareaRef.current) textareaRef.current.style.height = 'inherit';
     
     try {
-      const sessionId = await sendMessage(message);
-      if (sessionId && sessionId !== currentSessionId) {
-        navigate(`/chat/${sessionId}`);
-      }
+      await sendMessage(
+        message, 
+        null, // bookFilter is not supported in UI right now
+        (newId) => {
+          if (newId && newId !== currentSessionId) {
+            navigate(`/chat/${newId}`);
+          }
+        }
+      );
     } catch (error) {
       setContent(message); // restore if failed
     }
