@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Menu } from 'lucide-react';
+import { Menu, Bot } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useChat } from '../../contexts/ChatContext';
 import Sidebar from '../../components/layout/Sidebar';
@@ -9,7 +9,7 @@ import ChatInput from '../../components/chat/ChatInput';
 
 export default function ChatPage() {
   const { user } = useAuth();
-  const { currentSessionId, messages, isLoadingMessages, loadSession } = useChat();
+  const { currentSessionId, messages, isLoadingMessages, loadSession, isSending } = useChat();
   const { sessionId } = useParams();
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 768);
@@ -85,8 +85,22 @@ export default function ChatPage() {
           ) : (
             <div className="max-w-3xl mx-auto space-y-8 pb-32">
               {messages.map((msg, idx) => (
-                <ChatBubble key={msg.id} message={msg} isLast={idx === messages.length - 1} />
+                <ChatBubble key={msg.id} message={msg} isLast={idx === messages.length - 1 && !isSending} />
               ))}
+              {isSending && (
+                <div className="flex gap-4 w-full animate-in fade-in slide-in-from-bottom-2 duration-300">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-sm ring-2 ring-background z-10 bg-gradient-to-br from-indigo-500 to-purple-600">
+                    <Bot size={16} />
+                  </div>
+                  <div className="max-w-[85%] sm:max-w-[75%] rounded-2xl px-5 py-4 shadow-sm relative bg-card text-card-foreground rounded-tl-sm border border-border/50 flex items-center">
+                    <div className="flex space-x-1.5">
+                      <div className="w-2 h-2 rounded-full bg-primary/40 animate-bounce"></div>
+                      <div className="w-2 h-2 rounded-full bg-primary/40 animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                      <div className="w-2 h-2 rounded-full bg-primary/40 animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
