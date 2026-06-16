@@ -17,7 +17,8 @@ import {
   Settings, 
   ShieldAlert, 
   Palette, 
-  Check 
+  Check,
+  Monitor
 } from 'lucide-react';
 
 export default function ProfilePage() {
@@ -315,7 +316,7 @@ export default function ProfilePage() {
                   <p className="text-xs text-gray-500">Customize the application UI style.</p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <button
                     onClick={() => setTheme('light')}
                     className={`flex flex-col items-center gap-3 p-4 rounded-xl border text-center transition-all ${
@@ -347,6 +348,23 @@ export default function ProfilePage() {
                     <div className="flex items-center gap-1.5">
                       <span className="text-sm font-medium text-gray-900 dark:text-white">Dark Mode</span>
                       {theme === 'dark' && <Check size={16} className="text-blue-600 dark:text-blue-500" />}
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => setTheme('system')}
+                    className={`flex flex-col items-center gap-3 p-4 rounded-xl border text-center transition-all ${
+                      theme === 'system'
+                        ? 'border-blue-600 bg-blue-50/50 dark:bg-blue-900/10 dark:border-blue-500'
+                        : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
+                    }`}
+                  >
+                    <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 flex items-center justify-center border border-gray-200 dark:border-gray-700">
+                      <Monitor size={20} />
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm font-medium text-gray-900 dark:text-white">System</span>
+                      {theme === 'system' && <Check size={16} className="text-blue-600 dark:text-blue-500" />}
                     </div>
                   </button>
                 </div>
