@@ -1,15 +1,27 @@
+<!-- Menetapkan tipe dokumen sebagai dokumen HTML5 -->
 <!doctype html>
+<!-- Mengatur bahasa dasar halaman ke Bahasa Inggris -->
 <html lang="en">
+  <!-- Bagian header dokumen HTML untuk memuat metadata dan link eksternal -->
   <head>
+    <!-- Menentukan format karakter dokumen menggunakan UTF-8 -->
     <meta charset="UTF-8" />
+    <!-- Menentukan ikon tab browser (favicon) menggunakan file SVG -->
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- Mengatur viewport agar halaman web responsif dan ramah perangkat seluler -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Deskripsi metadata SEO untuk merangkum konten halaman web -->
     <meta name="description" content="KitabGuru - Platform Edukasi Berbasis AI" />
+    <!-- Memuat font modern 'Inter' dari Google Fonts untuk tampilan tipografi yang premium -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Judul halaman web yang akan muncul di tab browser -->
     <title>KitabGuru</title>
   </head>
+  <!-- Bagian tubuh dokumen tempat seluruh konten web dirender -->
   <body>
+    <!-- Wadah div utama tempat aplikasi React SPA akan disuntikkan dan dijalankan -->
     <div id="root"></div>
+    <!-- Memuat skrip module Javascript utama aplikasi React -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

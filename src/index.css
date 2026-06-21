@@ -1,128 +1,201 @@
+/* Mengimpor font Inter dari Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
+/* Memuat komponen dasar default dari TailwindCSS */
 @tailwind base;
+/* Memuat komponen layout bawaan dari TailwindCSS */
 @tailwind components;
+/* Memuat utilitas CSS pendukung dari TailwindCSS */
 @tailwind utilities;
 
+/* Menetapkan variabel warna kustom untuk tema terang (light mode) */
 @layer base {
   :root {
+    /* Warna latar belakang utama: putih */
     --background: 0 0% 100%;
+    /* Warna teks utama: biru dongker gelap */
     --foreground: 222.2 84% 4.9%;
 
+    /* Latar belakang kartu/card: putih */
     --card: 0 0% 100%;
+    /* Warna teks kartu */
     --card-foreground: 222.2 84% 4.9%;
 
+    /* Latar belakang popover/modal melayang: putih */
     --popover: 0 0% 100%;
+    /* Warna teks popover */
     --popover-foreground: 222.2 84% 4.9%;
 
+    /* Warna primer aplikasi: biru terang premium */
     --primary: 221.2 83.2% 53.3%;
+    /* Warna teks di atas tombol warna primer: putih hangat */
     --primary-foreground: 210 40% 98%;
 
+    /* Warna sekunder: abu-abu sangat muda */
     --secondary: 210 40% 96.1%;
+    /* Warna teks di atas warna sekunder */
     --secondary-foreground: 222.2 47.4% 11.2%;
 
+    /* Warna teks/latar redup (muted): abu-abu muda */
     --muted: 210 40% 96.1%;
+    /* Warna teks redup */
     --muted-foreground: 215.4 16.3% 46.9%;
 
+    /* Warna aksen melayang (accent hover): abu-abu muda */
     --accent: 210 40% 96.1%;
+    /* Warna teks aksen */
     --accent-foreground: 222.2 47.4% 11.2%;
 
+    /* Warna pesan bahaya/hapus (destructive): merah */
     --destructive: 0 84.2% 60.2%;
+    /* Warna teks di atas tombol destructive */
     --destructive-foreground: 210 40% 98%;
 
+    /* Warna garis tepi border: abu-abu muda */
     --border: 214.3 31.8% 91.4%;
+    /* Warna border kolom input */
     --input: 214.3 31.8% 91.4%;
+    /* Warna ring focus: biru */
     --ring: 221.2 83.2% 53.3%;
 
+    /* Radius kelengkungan sudut box default (12px) */
     --radius: 0.75rem;
 
+    /* Warna latar belakang efek kaca transparan (glassmorphism) */
     --glass-bg: rgba(255, 255, 255, 0.6);
+    /* Warna garis tepi efek kaca */
     --glass-border: rgba(255, 255, 255, 0.3);
+    /* Efek bayangan halus untuk panel kaca */
     --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
   }
 
+  /* Menetapkan variabel warna kustom untuk tema gelap (dark mode) */
   .dark {
+    /* Latar belakang utama: abu-abu kehitaman */
     --background: 222.2 84% 4.9%;
+    /* Warna teks utama: putih redup */
     --foreground: 210 40% 98%;
 
+    /* Latar belakang kartu: abu-abu kehitaman */
     --card: 222.2 84% 4.9%;
+    /* Warna teks kartu */
     --card-foreground: 210 40% 98%;
 
+    /* Latar belakang popover: abu-abu kehitaman */
     --popover: 222.2 84% 4.9%;
+    /* Warna teks popover */
     --popover-foreground: 210 40% 98%;
 
+    /* Warna primer tema gelap: biru neon lembut */
     --primary: 217.2 91.2% 59.8%;
+    /* Warna teks di atas tombol primer */
     --primary-foreground: 222.2 47.4% 11.2%;
 
+    /* Latar belakang sekunder tema gelap */
     --secondary: 217.2 32.6% 17.5%;
+    /* Warna teks sekunder */
     --secondary-foreground: 210 40% 98%;
 
+    /* Latar belakang muted tema gelap */
     --muted: 217.2 32.6% 17.5%;
+    /* Warna teks muted */
     --muted-foreground: 215 20.2% 65.1%;
 
+    /* Latar belakang aksen tema gelap */
     --accent: 217.2 32.6% 17.5%;
+    /* Warna teks aksen */
     --accent-foreground: 210 40% 98%;
 
+    /* Warna tombol destructive tema gelap: merah tua */
     --destructive: 0 62.8% 30.6%;
+    /* Warna teks destructive */
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
+    /* Warna border tema gelap */
+    --border: 217.2 32.6 17.5%;
+    /* Warna kolom input tema gelap */
     --input: 217.2 32.6% 17.5%;
+    /* Warna ring focus */
     --ring: 212.7 26.8% 83.9%;
 
+    /* Latar belakang efek kaca tema gelap: abu-abu gelap transparan */
     --glass-bg: rgba(15, 23, 42, 0.6);
+    /* Warna border efek kaca tema gelap */
     --glass-border: rgba(255, 255, 255, 0.05);
+    /* Bayangan panel kaca tema gelap */
     --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
   }
 }
 
+/* Menetapkan kelas gaya dasar (base styles) */
 @layer base {
+  /* Menerapkan kelas border-border dari Tailwind ke seluruh elemen web */
   * {
     @apply border-border;
   }
+  /* Mengatur tampilan dasar body halaman web */
   body {
+    /* Menerapkan warna latar, warna teks, font sans-serif, dan rendering font halus */
     @apply bg-background text-foreground font-sans antialiased;
   }
 }
 
+/* Menetapkan kelas utilitas kustom untuk layout premium */
 @layer utilities {
+  /* Efek kartu kaca transparan (Glassmorphism) */
   .glass {
+    /* Latar belakang transparan */
     background: var(--glass-bg);
+    /* Efek buram latar belakang */
     backdrop-filter: blur(16px);
+    /* Dukungan safari */
     -webkit-backdrop-filter: blur(16px);
+    /* Garis tepi tipis */
     border: 1px solid var(--glass-border);
+    /* Bayangan halus */
     box-shadow: var(--glass-shadow);
   }
   
+  /* Efek panel atas/pembatas kaca */
   .glass-panel {
     background: var(--glass-bg);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    /* Hanya memberi garis pembatas di bawah */
     border-bottom: 1px solid var(--glass-border);
   }
   
-  /* Custom sleek scrollbar */
+  /* Desain scrollbar ramping modern */
   ::-webkit-scrollbar {
+    /* Lebar scrollbar 6px */
     width: 6px;
     height: 6px;
   }
+  /* Latar belakang rel scrollbar diset transparan */
   ::-webkit-scrollbar-track {
     background: transparent;
   }
+  /* Desain handle/tombol geser scrollbar */
   ::-webkit-scrollbar-thumb {
+    /* Berwarna abu-abu bulat di ujungnya */
     @apply bg-gray-300 dark:bg-gray-700 rounded-full;
   }
+  /* Desain handle scrollbar saat diarahkan kursor */
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-400 dark:bg-gray-600;
   }
 }
 
-/* Animations */
+/* Animasi transisi elemen */
 @keyframes fadeIn {
+  /* Keadaan awal: transparan dan tergeser ke bawah 10px */
   from { opacity: 0; transform: translateY(10px); }
+  /* Keadaan akhir: terlihat jelas dan tergeser kembali ke posisi normal */
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Menerapkan kelas animasi masuk */
 .animate-in {
+  /* Menjalankan animasi fadeIn selama 0.4 detik dengan kurva transisi halus (easing) */
   animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
