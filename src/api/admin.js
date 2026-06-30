@@ -73,5 +73,34 @@ export const adminApi = {
   deleteIoTSession: async (id) => {
     // Melakukan request DELETE ke '/admin/iot/sessions/{id}'
     await apiClient.delete(`/admin/iot/sessions/${id}`);
+  },
+  // Document Management Endpoints
+  getDocuments: async (skip = 0, limit = 10, search = '') => {
+    let url = `/admin/documents?skip=${skip}&limit=${limit}`;
+    if (search) url += `&search=${encodeURIComponent(search)}`;
+    const { data } = await apiClient.get(url);
+    return data;
+  },
+  importDocument: async (file, title, author) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    if (title) formData.append('title', title);
+    if (author) formData.append('author', author);
+    const { data } = await apiClient.post('/admin/documents/import', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      timeout: 600000 // 10 minutes timeout for upload
+    });
+    return data;
+  },
+  getDocumentTask: async (taskId) => {
+    const { data } = await apiClient.get(`/admin/documents/tasks/${taskId}`);
+    return data;
+  },
+  updateDocument: async (bookId, payload) => {
+    const { data } = await apiClient.patch(`/admin/documents/${bookId}`, payload);
+    return data;
+  },
+  deleteDocument: async (bookId) => {
+    await apiClient.delete(`/admin/documents/${bookId}`);
   }
 };

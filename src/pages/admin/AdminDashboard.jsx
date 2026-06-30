@@ -9,7 +9,7 @@ import { Button } from '../../components/ui/button';
 // Mengimpor ikon-ikon dari lucide-react untuk dekorasi antarmuka dashboard
 import { 
   LogOut, Trash2, Plus, Edit2, Eye, Users, MessageSquare, Cpu, 
-  ChevronLeft, ChevronRight, CheckCircle, XCircle 
+  ChevronLeft, ChevronRight, CheckCircle, XCircle, Book
 } from 'lucide-react';
 // Mengimpor hook autentikasi untuk memicu logout
 import { useAuth } from '../../contexts/AuthContext';
@@ -17,6 +17,8 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 // Mengimpor modal form penambahan/edit data pengguna (UserFormModal)
 import UserFormModal from '../../components/admin/UserFormModal';
+// Mengimpor halaman manajemen EPUB
+import AdminEpubManagement from './AdminEpubManagement';
 
 // Konstanta batas jumlah data per halaman untuk sistem paginasi tabel
 const ITEMS_PER_PAGE = 10;
@@ -308,6 +310,18 @@ export default function AdminDashboard() {
             <Cpu size={16} />
             <span>IoT Sessions</span>
           </button>
+          {/* Tab EPUBs */}
+          <button
+            onClick={() => setActiveTab('epubs')}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all ${
+              activeTab === 'epubs' 
+                ? 'bg-primary text-primary-foreground shadow-sm' 
+                : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+            }`}
+          >
+            <Book size={16} />
+            <span>EPUBs</span>
+          </button>
         </div>
 
         {/* Kotak Kontainer Utama Konten Data Aktif */}
@@ -320,12 +334,14 @@ export default function AdminDashboard() {
                 {activeTab === 'users' && 'User Management'}
                 {activeTab === 'sessions' && 'Web Chat Sessions'}
                 {activeTab === 'iot' && 'IoT Device Sessions'}
+                {activeTab === 'epubs' && 'EPUB Documents Management'}
               </CardTitle>
               {/* Jumlah total baris data yang ada */}
               <p className="text-xs text-muted-foreground mt-1">
                 {activeTab === 'users' && `Total: ${totalUsers} user accounts`}
                 {activeTab === 'sessions' && `Total: ${totalSessions} active web sessions`}
                 {activeTab === 'iot' && `Total: ${totalIot} active device sessions`}
+                {activeTab === 'epubs' && `Manage knowledge base documents`}
               </p>
             </div>
             {/* Hanya tampilkan tombol "Add User" jika berada di tab Users */}
@@ -511,7 +527,15 @@ export default function AdminDashboard() {
               </div>
             )}
 
+            {/* TABEL MANAJEMEN EPUB (EPUB MANAGEMENT) */}
+            {activeTab === 'epubs' && (
+              <div className="p-4 sm:p-6 border-b border-border/50">
+                <AdminEpubManagement />
+              </div>
+            )}
+
             {/* Bagian Bawah Kartu: Pengendali Navigasi Paginasi Halaman Tabel */}
+            {activeTab !== 'epubs' && (
             <div className="flex items-center justify-between border-t border-border/50 px-6 py-4 bg-muted/10">
               {/* Teks informasi posisi halaman saat ini */}
               <span className="text-xs text-muted-foreground">
@@ -556,6 +580,7 @@ export default function AdminDashboard() {
                 )}
               </div>
             </div>
+            )}
 
           </CardContent>
         </Card>
